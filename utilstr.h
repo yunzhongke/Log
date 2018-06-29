@@ -64,6 +64,15 @@ static int find_last_substr(char *str , const char *sub);
  */
 static int substr_num(char *str , const char* sub);
 
+/**
+ * @brief 移动字符
+ * @param str 输入的字符串
+ * @param pos 起始位置
+ * @param num 移动的个数 
+ */
+static int move_str(char *str , const int pos , const int num);
+
+
 static int insert(char *str , const int pos , const char *sub);
 
 /**

@@ -92,6 +92,57 @@ int substr_num(char *str , const char* sub)
     return num;
 }
 
+int move_str(char *str , const int pos , const int num)
+{
+    if (!num)
+        return 0;
+
+    int start = 0 , ret = 0 , _pos = pos;
+    int end = strlen(str) - 1;
+
+    if (num < 0){ //向左移动
+
+        if (_pos <= start || _pos + num < start || _pos > end) // 越界
+            ret = -1;
+
+        else{
+
+            for (int i = 0; i < abs(num) ; ++i){
+                for (int j = 0; j <= end - pos ; ++j ){
+                    str[_pos - 1 + j] = str[_pos + j];
+                }
+                --_pos;
+            }
+
+            // 将移动后的地方置为0
+            for (int i = 0; i < abs(num); ++i){
+                str[end--] = 0;
+            }
+        }
+
+    }else{  // 向右移动
+        if (_pos >= end || _pos + num > end || _pos < start)
+            ret = -1;
+
+        else{
+            int src_pos = pos;
+            for (int i = 0; i < num ; ++i){
+                for (int j = end ; j > _pos ; --j ){
+                    str[j] = str[j - 1];
+                }
+                ++_pos;
+            }
+
+            // 将移动后的地方置为0
+            for (int i = 0; i < num; ++i){
+                str[src_pos + i] = 0;
+            }
+        }
+    }
+
+    return ret;
+}
+
 int insert(char *str , const int pos , const char *sub)
 {
     int len = strlen(str); 
@@ -187,14 +238,24 @@ int main(int argc , char **argv)
     printf("aft num:%.3f\n" , str_to_float(buf));
 #endif
 
-    char buf[] ="ueyunzhongkezhongtI";
-    const char *ptr = "eyuk";
+    /*char buf[] ="ueyunzhongkezhongtI";*/
+    /*const char *ptr = "eyuk";*/
     /*printf("find:%d\n" , find_substr(buf , ptr));*/
     /*printf("find_last:%d\n" , find_last_substr(buf , ptr));*/
-    printf("find count:%d\n" , substr_num(buf , ptr));
+    /*printf("find count:%d\n" , substr_num(buf , ptr));*/
 
     /*char *sub = substr(buf , -1 , 9);*/
-
     /*printf("sub:%s\n" , sub);*/
+
+#if 0
+    char buf[] = "|||||yunzh ngke-=-=-=";
+    printf("strlen:%d\n" , strlen(buf));
+    int ret = move_str(buf , 11 , -1);
+    if (!ret){
+        for(int i = 0; i < 21; ++i)
+            printf("%c\n" , buf[i]);
+    }
+#endif
+
     return 0;
 }
